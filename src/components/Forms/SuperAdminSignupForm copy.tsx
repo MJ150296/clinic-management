@@ -39,7 +39,7 @@ const SuperAdminSignupForm = () => {
     ) => {
       try {
         const response = await axios.post(
-          "/api/auth/superAdmin/signup",
+          "/api/superAdmin/signup",
           values
         );
         console.log("response", response?.data?.data, response?.data?.message);

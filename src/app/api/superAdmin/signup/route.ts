@@ -1,3 +1,4 @@
+import superAdminModel from "@/model/superAdmin.model";
 import UserModel from "@/model/User.model";
 import dbConnect from "@/utils/dbConnect";
 import signupSuperAdminZodSchema from "@/zod schemas/Auth Schemas/Signup/SignupSuperAdminZodSchema";
@@ -43,8 +44,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log(validatedData);
-
     const superAdminData = {
       ...validatedData,
       role: "superAdmin",
@@ -52,16 +51,18 @@ export async function POST(req: NextRequest) {
       isActive: "true",
     };
 
-    console.log("superAdminData", superAdminData);
-
     const user = await UserModel.create(superAdminData);
+    const superAdminProfile = await superAdminModel.create({
+      userId: user._id,
+    });
 
-    console.log("user data", user);
+    const createdUser = await UserModel.findById(user?._id).select("-password");
+
     return NextResponse.json(
       {
         success: true,
         data: {
-          data: user,
+          data: superAdminProfile,
           message: "Sign up successfull - superAdmin",
         },
       },

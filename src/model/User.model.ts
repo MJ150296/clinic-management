@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import { nanoid } from "nanoid";
 
 export interface IUser extends Document {
-  userId: string;
   email: string;
   password: string;
   role:
@@ -25,12 +24,6 @@ export interface IUser extends Document {
 // Define the User Schema
 const userSchema: Schema<IUser> = new Schema(
   {
-    userId: {
-      type: String,
-      required: true,
-      unique: true,
-      default: () => nanoid(),
-    },
     email: {
       type: String,
       required: true,
